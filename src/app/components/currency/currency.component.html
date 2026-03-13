@@ -1,0 +1,57 @@
+<!-- src/app/components/currency/currency.component.html -->
+<div class="currency-wrap">
+
+  <div class="converter-card">
+    <h2 class="card-title">Currency Converter</h2>
+
+    <div class="amount-row">
+      <input type="number" [(ngModel)]="amount"
+        (ngModelChange)="convert()"
+        class="amount-input" min="0" />
+    </div>
+
+    <div class="from-to-row">
+      <div class="currency-selector">
+        <div class="sel-flag">{{ getFlag(fromCurrency) }}</div>
+        <select [(ngModel)]="fromCurrency" (change)="convert()" class="cur-select">
+          <option *ngFor="let c of currencies" [value]="c.code">
+            {{ c.code }} — {{ c.name }}
+          </option>
+        </select>
+      </div>
+
+      <button class="swap-btn" (click)="swap()" title="Swap currencies">⇄</button>
+
+      <div class="currency-selector">
+        <div class="sel-flag">{{ getFlag(toCurrency) }}</div>
+        <select [(ngModel)]="toCurrency" (change)="convert()" class="cur-select">
+          <option *ngFor="let c of currencies" [value]="c.code">
+            {{ c.code }} — {{ c.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="result-box">
+      <div class="result-label">{{ amount }} {{ fromCurrency }} =</div>
+      <div class="result-amount">
+        {{ result | number:'1.2-4' }}
+        <span class="result-currency">{{ toCurrency }}</span>
+      </div>
+      <div class="rate-label">1 {{ fromCurrency }} = {{ getRate() }} {{ toCurrency }}</div>
+    </div>
+  </div>
+
+  <div class="pairs-grid">
+    <h3 class="pairs-title">Popular Pairs</h3>
+    <div class="pairs-list">
+      <div *ngFor="let p of getPopularPairs()" class="pair-card"
+        (click)="fromCurrency = p.from; toCurrency = p.to; convert()">
+        <div class="pair-flags">{{ p.fromFlag }} → {{ p.toFlag }}</div>
+        <div class="pair-code">{{ p.from }}/{{ p.to }}</div>
+        <div class="pair-rate">{{ p.rate }}</div>
+      </div>
+    </div>
+  </div>
+
+</div>

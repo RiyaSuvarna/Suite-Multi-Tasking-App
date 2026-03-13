@@ -1,0 +1,47 @@
+<!-- src/app/components/calculator/calculator.component.html -->
+<div class="calc-wrap">
+  <div class="calc-layout">
+
+    <div class="calc-body">
+      <div class="display-area">
+        <div class="expr">{{ expression }}</div>
+        <div class="main-display">{{ display }}</div>
+      </div>
+
+      <div class="btn-grid">
+        <button *ngFor="let key of buttons[0]"
+          class="calc-btn"
+          [class.op]="isOperator(key)"
+          [class.special]="isSpecial(key)"
+          (click)="press(key)">{{ key }}</button>
+
+        <button *ngFor="let key of buttons[1]"
+          class="calc-btn"
+          [class.op]="isOperator(key)"
+          (click)="press(key)">{{ key }}</button>
+
+        <button *ngFor="let key of buttons[2]"
+          class="calc-btn"
+          [class.op]="isOperator(key)"
+          (click)="press(key)">{{ key }}</button>
+
+        <button *ngFor="let key of buttons[3]"
+          class="calc-btn"
+          [class.op]="isOperator(key)"
+          (click)="press(key)">{{ key }}</button>
+
+        <button class="calc-btn zero" (click)="press('0')">0</button>
+        <button class="calc-btn" (click)="press('.')">.</button>
+        <button class="calc-btn" (click)="press('⌫')">⌫</button>
+        <button class="calc-btn equals" (click)="press('=')">=</button>
+      </div>
+    </div>
+
+    <div class="history-panel">
+      <h3 class="hist-title">History</h3>
+      <div *ngIf="history.length === 0" class="hist-empty">No calculations yet</div>
+      <div *ngFor="let h of history" class="hist-item">{{ h }}</div>
+    </div>
+
+  </div>
+</div>

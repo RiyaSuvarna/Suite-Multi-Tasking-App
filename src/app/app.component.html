@@ -1,0 +1,29 @@
+<!-- src/app/app.component.html -->
+<div class="app-shell">
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">◈</span>
+        <span class="logo-text">SUITE</span>
+      </div>
+      <div class="live-clock">{{ currentTime }}</div>
+    </div>
+  </header>
+
+  <nav class="tab-nav">
+    <button *ngFor="let tab of tabs; let i = index"
+      class="tab-btn"
+      [class.active]="activeTab === i"
+      (click)="activeTab = i">
+      <span class="tab-icon">{{ tab.icon }}</span>
+      <span class="tab-label">{{ tab.label }}</span>
+    </button>
+  </nav>
+
+  <main class="app-main">
+    <app-weather   *ngIf="activeTab === 0"></app-weather>
+    <app-calculator *ngIf="activeTab === 1"></app-calculator>
+    <app-currency  *ngIf="activeTab === 2"></app-currency>
+    <app-alarm     *ngIf="activeTab === 3"></app-alarm>
+  </main>
+</div>

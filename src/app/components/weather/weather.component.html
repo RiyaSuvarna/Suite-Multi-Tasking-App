@@ -1,0 +1,71 @@
+<!-- src/app/components/weather/weather.component.html -->
+<div class="weather-wrap">
+  <div class="search-bar">
+    <input
+      type="text"
+      [(ngModel)]="city"
+      placeholder="Search city..."
+      (keyup.enter)="search()"
+      class="search-input"
+    />
+    <button class="search-btn" (click)="search()">🔍</button>
+  </div>
+
+  <div *ngIf="loading" class="loader">
+    <div class="spinner"></div>
+    <p>Fetching weather...</p>
+  </div>
+
+  <div *ngIf="weather && !loading" class="weather-card main-card">
+    <div class="location-row">
+      <div>
+        <h2 class="city-name">{{ weather.name }}, {{ weather.sys.country }}</h2>
+        <p class="condition">{{ weather.weather[0].description | titlecase }}</p>
+      </div>
+      <div class="weather-icon-big">{{ getIcon(weather.weather[0].main) }}</div>
+    </div>
+
+    <div class="temp-display">
+      <span class="temp-main">{{ weather.main.temp | number: '1.0-0' }}°</span>
+      <span class="temp-unit">C</span>
+    </div>
+    <p class="feels-like">Feels like {{ weather.main.feels_like | number: '1.0-0' }}°C</p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-icon">💧</span>
+        <span class="stat-val">{{ weather.main.humidity }}%</span>
+        <span class="stat-lbl">Humidity</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">💨</span>
+        <span class="stat-val">{{ weather.wind.speed }} m/s</span>
+        <span class="stat-lbl">Wind {{ getWindDirection(weather.wind.deg) }}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🌡️</span>
+        <span class="stat-val">{{ weather.main.pressure }} hPa</span>
+        <span class="stat-lbl">Pressure</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">👁️</span>
+        <span class="stat-val">{{ weather.visibility / 1000 | number: '1.0-0' }} km</span>
+        <span class="stat-lbl">Visibility</span>
+      </div>
+    </div>
+
+    <div class="sun-row">
+      <div class="sun-item">🌅 Sunrise: {{ formatTime(weather.sys.sunrise) }}</div>
+      <div class="sun-item">🌇 Sunset: {{ formatTime(weather.sys.sunset) }}</div>
+    </div>
+  </div>
+
+  <div *ngIf="forecast.length && !loading" class="forecast-row">
+    <div *ngFor="let day of forecast" class="forecast-card">
+      <p class="f-day">{{ formatDay(day.dt_txt) }}</p>
+      <div class="f-icon">{{ getIcon(day.weather[0].main) }}</div>
+      <p class="f-temp">{{ day.main.temp | number: '1.0-0' }}°C</p>
+      <p class="f-hum">{{ day.main.humidity }}%</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+<div class="alarm-wrap">
+
+  <!-- Firing alert -->
+  <div *ngIf="firingAlarm" class="alarm-alert">
+    <div class="alert-inner">
+      <span class="alert-bell">🔔</span>
+      <div>
+        <div class="alert-time">{{ firingAlarm.time }}</div>
+        <div class="alert-label">{{ firingAlarm.label }}</div>
+      </div>
+      <button class="dismiss-btn" (click)="dismissAlarm()">Dismiss</button>
+    </div>
+  </div>
+
+  <div class="top-layout">
+
+    <!-- Analog Clock -->
+    <div class="clock-card">
+      <svg class="analog-clock" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="95" fill="none" stroke="rgba(124,106,247,0.2)" stroke-width="1"/>
+        <circle cx="100" cy="100" r="88" fill="#12121a"/>
+
+        <!-- Hour ticks -->
+        <line *ngFor="let i of [0,1,2,3,4,5,6,7,8,9,10,11]"
+          [attr.x1]="tickX(i, 76)" [attr.y1]="tickY(i, 76)"
+          [attr.x2]="tickX(i, 84)" [attr.y2]="tickY(i, 84)"
+          stroke="rgba(124,106,247,0.6)" stroke-width="2" stroke-linecap="round"/>
+
+        <!-- Hour hand -->
+        <line x1="100" y1="100"
+          [attr.x2]="handX(getClockDeg().h, 48)"
+          [attr.y2]="handY(getClockDeg().h, 48)"
+          stroke="#f0eeff" stroke-width="4" stroke-linecap="round"/>
+
+        <!-- Minute hand -->
+        <line x1="100" y1="100"
+          [attr.x2]="handX(getClockDeg().m, 66)"
+          [attr.y2]="handY(getClockDeg().m, 66)"
+          stroke="#7c6af7" stroke-width="3" stroke-linecap="round"/>
+
+        <!-- Second hand -->
+        <line x1="100" y1="100"
+          [attr.x2]="handX(getClockDeg().s, 72)"
+          [attr.y2]="handY(getClockDeg().s, 72)"
+          stroke="#f76ac8" stroke-width="1.5" stroke-linecap="round"/>
+
+        <circle cx="100" cy="100" r="4" fill="#7c6af7"/>
+      </svg>
+
+      <div class="digital-time">{{ getFormattedTime() }}</div>
+      <div class="digital-date">{{ getFormattedDate() }}</div>
+
+      <select [(ngModel)]="selectedTimezone" class="tz-select">
+        <option *ngFor="let tz of timezones" [value]="tz.value">{{ tz.label }}</option>
+      </select>
+    </div>
+
+    <!-- Alarm Panel -->
+    <div class="alarm-panel">
+      <h3 class="panel-title">Set Alarm</h3>
+
+      <div class="add-alarm-form">
+        <input type="time" [(ngModel)]="newAlarmTime" class="time-input" />
+        <input type="text" [(ngModel)]="newAlarmLabel" placeholder="Label (optional)" class="label-input" />
+        <button class="add-btn" (click)="addAlarm()">+ Add Alarm</button>
+      </div>
+
+      <div class="alarms-list">
+        <div *ngIf="alarms.length === 0" class="no-alarms">No alarms set</div>
+        <div *ngFor="let alarm of alarms" class="alarm-item" [class.inactive]="!alarm.active">
+          <div class="alarm-info">
+            <span class="alarm-time-disp">{{ alarm.time }}</span>
+            <span class="alarm-label-disp">{{ alarm.label }}</span>
+          </div>
+          <div class="alarm-actions">
+            <button class="toggle-btn" [class.on]="alarm.active" (click)="toggleAlarm(alarm)">
+              {{ alarm.active ? 'ON' : 'OFF' }}
+            </button>
+            <button class="del-btn" (click)="removeAlarm(alarm.id)">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,126 @@
+/* src/app/components/calculator/calculator.component.scss */
+.calc-wrap { animation: fadeIn 0.4s ease; }
+
+.calc-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+
+  @media (max-width: 680px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.calc-body {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.display-area {
+  padding: 1.5rem;
+  text-align: right;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  .expr {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-family: 'Space Mono', monospace;
+    min-height: 1.2em;
+    word-break: break-all;
+  }
+
+  .main-display {
+    font-family: 'Space Mono', monospace;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--text);
+    word-break: break-all;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--text), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.btn-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+
+.calc-btn {
+  padding: 1.1rem;
+  background: var(--surface);
+  border: none;
+  color: var(--text);
+  font-size: 1.15rem;
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover { background: var(--surface2); }
+  &:active { background: rgba(124,106,247,0.15); }
+
+  &.op {
+    color: var(--accent);
+    font-size: 1.3rem;
+  }
+
+  &.special {
+    color: var(--accent2);
+  }
+
+  &.equals {
+    background: var(--accent);
+    color: white;
+    &:hover { opacity: 0.9; }
+  }
+
+  &.zero {
+    grid-column: span 1;
+  }
+}
+
+.history-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+
+  .hist-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .hist-empty {
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  .hist-item {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    &:last-child { border-bottom: none; }
+  }
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
